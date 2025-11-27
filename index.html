@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Phả hệ dạng trên–xuống</title>
+<script src="https://balkan.app/js/OrgChart.js"></script>
+<style>
+  html, body {
+    margin: 0;
+    padding: 0;
+  }
+
+  .node-text {
+    width: 230px;
+    text-align: center;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    font-family: Arial, sans-serif;
+    line-height: 1.1;
+  }
+
+  .index {
+    font-size: 13px;
+    color: #e60000;
+  }
+
+  .name {
+    font-size: 15px;
+    font-weight: normal;
+    color: #fceb07;
+  }
+
+  .vc {
+    font-size: 14px;
+    color: #ffffff;
+  }
+</style>
+</head>
+<body>
+  <style>
+  /* Viền cam bao quanh toàn bộ trang web */
+  html {
+    box-sizing: border-box;
+    padding: 8px; /* khoảng cách từ viền đến nội dung */
+    background: #000; /* nền đen để viền cam hiện rõ hơn trên mọi thiết bị */
+    min-height: 100vh;
+  }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    border: 6px solid #ff6a00;     /* màu cam đậm đẹp */
+    /* Hoặc dùng các màu cam khác:
+       #ff9500 (cam sáng)
+       #ff5e00 (cam đỏ)
+       #ff7b00
+       #ffa500 (màu orange chuẩn)
+    */
+    border-radius: 12px; /* bo góc viền cho mềm mại */
+    overflow-x: hidden;
+    background: white; /* màu nền trang web thật sự */
+  }
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
+<style>
+  .announcement-bar {font-family: 'Lobster', cursive; text-align: center; font-size: 22px; padding: 10px 0; color: #d14b00;}
+</style>
+<div class="announcement-bar"> 🔥 Con cháu gia đình cụ Nguyễn Đỗ Mục 🔥 </div>  
+<div id="tree"></div>
+
+<script>
+var nodes = [
+  { id:  1, index: "Đời thứ 1", name: "Nguyễn Đình Dương: 1844", VC: "Đỗ Thị Lạc" },
+  { id:  2, pid:  1, index: "Đời thứ 2", name: "Nguyễn Đỗ Mục: 1882", VC: "Đỗ Thị Khiêm" },
+  { id:  3, pid:  2, index: "Đời thứ 3", name: "Nguyễn Đỗ Cung: 1912", VC: "Nguyễn Thị Phúc Khanh" },
+  { id:  4, pid:  2, index: "Đời thứ 3", name: "Nguyễn Đỗ Kính: 1914", VC: "Nguyễn Thị Tâm Hương: 1922" },
+  { id:  5, pid:  2, index: "Đời thứ 3", name: "Nguyễn Đỗ Phúc: 1916", VC: "" },
+  { id:  6, pid:  2, index: "Đời thứ 3", name: "Nguyễn Thị Phương Dung: 1919" },
+  { id:  7, pid:  3, index: "Đời thứ 4", name: "Nguyễn Đỗ Bảo: 1940", VC: "" },
+  { id:  8, pid:  3, index: "Đời thứ 4", name: "Nguyễn Thúy An: 1943", VC: "" },
+  { id:  9, pid:  3, index: "Đời thứ 4", name: "Nguyễn Triển: 1945" },
+  { id: 10, pid:  3, index: "Đời thứ 4", name: "Nguyễn Thị Thống: 1955", VC: "" },
+  { id: 11, pid:  3, index: "Đời thứ 4", name: "Nguyễn Thị Nhất: 1955", VC: "Nguyễn Đức Nhu: 1946" },
+  { id: 33, pid: 11, index: "Đời thứ 5", name: "Nguyễn Minh Dũng: 1981", VC: "Nguyễn Thị Thanh: 1981" },
+  { id: 34, pid: 33, index: "Đời thứ 6", name: "Nguyễn Minh Lâm: 2009" },
+  { id: 35, pid: 33, index: "Đời thứ 6", name: "Nguyễn Minh Anh: 2014" },
+  { id: 36, pid: 11, index: "Đời thứ 5", name: "Nguyễn Thị Phương Hạnh: 1989", VC: "Nguyễn Trọng Thuận: 1982" },
+  { id: 37, pid: 36, index: "Đời thứ 6", name: "Lê Khánh Vi: 2016" },
+  { id: 38, pid: 36, index: "Đời thứ 6", name: "Lê Khánh Nam: 2019" },
+  { id: 12, pid:  4, index: "Đời thứ 4", name: "Nguyễn Đỗ Cẩn", VC: "Nguyễn Thị Thảo: 1954" },
+  { id: 13, pid: 12, index: "Đời thứ 5", name: "Nguyễn Đỗ Anh Cường: 1977" },
+  { id: 14, pid: 13, index: "Đời thứ 6", name: "Nguyễn Đỗ Trung Hiếu: 2004" },
+  { id: 15, pid: 14, index: "Đời thứ 7", name: "Nguyễn Gia Huy: 2019" },
+  { id: 16, pid: 12, index: "Đời thứ 5", name: "Nguyễn Đỗ Bảo Trung: 1986", VC: "Nguyễn Thu Huyền: 1988" },
+  { id: 17, pid: 16, index: "Đời thứ 6", name: "Nguyến Đỗ Bảo Trân: 2020" },
+  { id: 18, pid: 16, index: "Đời thứ 6", name: "Nguyễn Thu Uyên: 2025" },
+  { id: 19, pid:  4, index: "Đời thứ 4", name: "Nguyễn Thị Hương Liên: 1947", VC: "Đào Thái Tôn: 1942" },
+  { id: 20, pid: 19, index: "Đời thứ 5", name: "Đào Phương Chi: 1972", VC: "Lê Quang Diêm: 1965" },
+  { id: 39, pid: 20, index: "Đời thứ 6", name: "Lê Phương Thư: 1996", VC: "Lương Đình Phúc: 1997" },
+  { id: 21, pid: 20, index: "Đời thứ 6", name: "Lê Phương Uyên: 2009" },
+  { id: 22, pid: 20, index: "Đời thứ 6", name: "Lê Phương: 2011" },
+  { id: 23, pid: 19, index: "Đời thứ 5", name: "Đào Phương Anh: 1980", VC: "Hoàng Hữu Trường: 1976" },
+  { id: 24, pid: 23, index: "Đời thứ 6", name: "Hoàng Ánh Phương: 2010" },
+  { id: 25, pid: 23, index: "Đời thứ 6", name: "Hoàng Phương: 2015" },
+  { id: 26, pid:  4, index: "Đời thứ 4", name: "Nguyễn Thị Hương Thu: 1955", VC: "" },
+  { id: 27, pid: 26, index: "Đời thứ 5", name: "Tào Thu Hằng: 1997", VC: "" },
+  { id: 28, pid:  4, index: "Đời thứ 4", name: "Nguyễn Thị Hương Thủy: 1957" },
+  { id: 29, pid:  4, index: "Đời thứ 4", name: "Nguyễn Thị Hương Mai: 1959" },
+  { id: 30, pid:  4, index: "Đời thứ 4", name: "Nguyễn Đỗ Trọng: 1961", VC: "Hoàng Thị Liên: 1968" },
+  { id: 31, pid: 30, index: "Đời thứ 5", name: "Nguyến Ngọc Trâm: 19xx" },
+  { id: 32, pid: 30, index: "Đời thứ 5", name: "Nguyễn Đỗ Đạt: 19xx" }
+];
+
+OrgChart.templates.centerAlign = Object.assign({}, OrgChart.templates.ana);
+OrgChart.templates.centerAlign.size = [240, 70];
+OrgChart.templates.centerAlign.minus =
+  '<circle cx="15" cy="15" r="7" fill="#ffffff" stroke="#039BE5" stroke-width="1.2"></circle>' +
+  '<path d="M10.5,15 h9" stroke="#039BE5" stroke-width="1.6"></path>';
+OrgChart.templates.centerAlign.plus =
+  '<circle cx="15" cy="15" r="7" fill="#ffffff" stroke="#039BE5" stroke-width="1.2"></circle>' +
+  '<path d="M15,10.5 v9 M10.5,15 h9" stroke="#039BE5" stroke-width="1.6"></path>';
+OrgChart.templates.centerAlign.link =
+  '<path stroke="#808080" stroke-width="1" fill="none" d="{edge}" />';
+OrgChart.templates.centerAlign.field_0 =
+  '<foreignObject x="5" y="10" width="230" height="20"><div class="node-text index">{val}</div></foreignObject>';
+OrgChart.templates.centerAlign.field_1 =
+  '<foreignObject x="5" y="28" width="230" height="22"><div class="node-text name">{val}</div></foreignObject>';
+OrgChart.templates.centerAlign.field_2 =
+  '<foreignObject x="5" y="48" width="230" height="18"><div class="node-text vc">{val}</div></foreignObject>';
+
+var chart = new OrgChart(document.getElementById("tree"), {
+  template: "centerAlign",
+  enableSearch: true,
+  nodeMouseClick: OrgChart.action.expandCollapse,
+  collapse: { level: 3 },
+  nodes: nodes,
+  nodeBinding: {
+    field_0: "index",
+    field_1: "name",
+    field_2: "VC"
+  }
+});
+
+</script>
+
+</body>
+</html>
