@@ -2,12 +2,20 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<title>Con cháu cụ Mục</title>
+<title>Con cháu cụ Tục</title>
 <script src="https://balkan.app/js/OrgChart.js"></script>
 <style>
   html, body {
     margin: 0;
     padding: 0;
+    height: 100%;
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+  }
+
+  #tree {
+    width: 100%;
+    height: 100%;
   }
 
   .node-text {
@@ -15,24 +23,60 @@
     text-align: center;
     word-wrap: break-word;
     overflow-wrap: break-word;
-    font-family: Arial, sans-serif;
     line-height: 1.1;
   }
 
-  .index {
-    font-size: 13px;
-    color: #e60000;
+  .index { font-size: 13px; color: #e60000; }
+  .name { font-size: 14px; font-weight: normal; color: #fceb07; }
+  .vc { font-size: 14px; color: #ffffff; }
+
+  #popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #fefefe;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    display: none;
+    z-index: 9999;
+    width: 300px;
   }
 
-  .name {
-    font-size: 15px;
-    font-weight: normal;
-    color: #fceb07;
+  #popup h3 { margin-top: 0; text-align: center; }
+  #popup input {
+    width: 100%;
+    padding: 6px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
   }
 
-  .vc {
-    font-size: 14px;
-    color: #ffffff;
+  #popup button {
+    margin: 5px;
+    padding: 6px 10px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+
+  #popup .save { background: #4CAF50; color: white; }
+  #popup .add-child { background: #2196F3; color: white; }
+  #popup .delete { background: #f44336; color: white; }
+  #popup .cancel { background: #aaa; color: white; }
+
+  #saveAll {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    padding: 8px 12px;
+    background: #009688;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    z-index: 1000;
   }
 </style>
 </head>
@@ -63,11 +107,10 @@
 </style>
 <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
 <style>
-  .announcement-bar {font-family: 'Lobster', cursive; text-align: center; font-size: 42px; padding: 10px 0; color: #d14b00;}
+  .announcement-bar {font-family: 'Lobster', cursive; text-align: center; font-size: 32px; padding: 10px 0; color: #d14b00;}
 </style>
 <div class="announcement-bar"> 🔥 Con cháu gia đình cụ Nguyễn Đỗ Mục 🔥 </div>  
 <div id="tree"></div>
-
 <script>
 var nodes = [
   { id:  1, index: "Đời thứ 1", name: "Nguyễn Đình Dương: 1844", VC: "Đỗ Thị Lạc" },
@@ -132,18 +175,10 @@ var chart = new OrgChart(document.getElementById("tree"), {
   template: "centerAlign",
   enableSearch: true,
   nodeMouseClick: OrgChart.action.expandCollapse,
-  collapse: { level: 3 },
+  collapse: { level: 4 },
   nodes: nodes,
-  nodeBinding: {
-    field_0: "index",
-    field_1: "name",
-    field_2: "VC"
-  }
+  nodeBinding: { field_0: "index", field_1: "name", field_2: "VC" }
 });
-
 </script>
-
 </body>
-
 </html>
-
